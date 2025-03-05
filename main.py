@@ -6,14 +6,14 @@ import tensorflow as tf
 import os
 from PIL import Image
 from sklearn import metrics
-from sklearn.metrics import f1_score, accuracy_score, confusion_matrix, classification_report
+from sklearn.metrics import f1_score, accuracy_score, confusion_matrix, classification_report, accuracy_score
 import matplotlib.pyplot as plt
 import seaborn as sns
 import cv2
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential, load_model
-from tensorflow.keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D
+from tensorflow.keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D, InputLayer
 import time, datetime
 import kagglehub
 
@@ -98,6 +98,48 @@ print(X_train.shape, X_test.shape, y_train.shape, y_test.shape)
 y_train = to_categorical(y_train, NUM_CLASSES)
 y_test = to_categorical(y_test, NUM_CLASSES)
 
+model = Sequential()
+model.add(InputLayer(input_shape=X_train.shape[1:]))
+model.add(Conv2D(32, (5,5), activation='relu'))
+model.add(Conv2D(64, (5, 5), activation='relu'))
+model.add(MaxPool2D(pool_size=(2, 2)))
+model.add(Dropout(0.15))
+model.add(Conv2D(128, (3, 3), activation='relu'))
+model.add(Conv2D(256, (3, 3), activation='relu'))
+model.add(MaxPool2D(pool_size=(2, 2)))
+model.add(Dropout(0.2))
+model.add(Flatten())
+model.add(Dense(512, activation='relu'))
+model.add(Dropout(0.25))
+model.add(Dense(NUM_CLASSES, activation='softmax'))
+
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+model.summary()
 
 
+with tf.device('/GPU:0'):
+    epochs = 35
+    history1 = model.fit(X_train, y_train, epochs=epochs, validation_data=(X_test, y_test))
 
+plot_performance(history1)
+
+y_test = pd.read_csv(os.path.join(path, 'Test.csv'))
+test_labels = y_test["ClassId"].values
+test_imgs = y_test["Path"].values
+test_data = []
+
+with tf.device('/GPU:0'):
+    for img_path in test_imgs:
+        img = Image.open(os.path.join(path, img_path))
+        img = img.resize((30,30))
+        test_data.append(np.array(img))
+
+
+X_test = np.array(test_data)
+
+with tf.device('/GPU:0'):
+    predictions = model.predict(X_test)
+    predictions = predictions.argmax(axis=-1)
+
+print(accuracy_score(predictions, test_labels))
