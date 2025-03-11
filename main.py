@@ -16,7 +16,18 @@ from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D, InputLayer
 import time, datetime
 import kagglehub
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
+datagen = ImageDataGenerator(
+    rotation_range=15,       # 15 dereceye kadar döndürme
+    width_shift_range=0.1,   # Genişlik kaydırma (%10)
+    height_shift_range=0.1,  # Yükseklik kaydırma (%10)
+    shear_range=0.2,         # Kesme dönüşümü
+    zoom_range=0.2,          # Rastgele yakınlaştırma
+    brightness_range=[0.8, 1.2],  # Parlaklık değişimi
+    horizontal_flip=False,   # Trafik işaretleri yönlü olduğu için kapalı
+    fill_mode='nearest'      # Kenarları doldurma yöntemi
+)
 
 def date_time(x):
     if x == 1:
@@ -67,7 +78,9 @@ def plot_performance(history=None, figure_dir=None, ylim_pad=[0,0]):
     plt.legend(legends)
 
     if figure_dir:
-        plt.savefig(figure_dir+"/history")
+        path = os.path.join(figure_dir, "history.png")
+        print(path)
+        plt.savefig(path)
     plt.show()
 
 
@@ -97,6 +110,7 @@ X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.2,
 print(X_train.shape, X_test.shape, y_train.shape, y_test.shape)
 y_train = to_categorical(y_train, NUM_CLASSES)
 y_test = to_categorical(y_test, NUM_CLASSES)
+train_generator = datagen.flow(X_train, y_train, batch_size=64, shuffle=True)
 
 model = Sequential()
 model.add(InputLayer(input_shape=X_train.shape[1:]))
@@ -109,7 +123,7 @@ model.add(Conv2D(256, (3, 3), activation='relu'))
 model.add(MaxPool2D(pool_size=(2, 2)))
 model.add(Dropout(0.2))
 model.add(Flatten())
-model.add(Dense(512, activation='relu'))
+model.add(Dense(256, activation='relu'))
 model.add(Dropout(0.25))
 model.add(Dense(NUM_CLASSES, activation='softmax'))
 
@@ -119,10 +133,10 @@ model.summary()
 
 
 with tf.device('/GPU:0'):
-    epochs = 35
-    history1 = model.fit(X_train, y_train, epochs=epochs, validation_data=(X_test, y_test))
+    epochs = 30
+    history1 = model.fit(train_generator, epochs=epochs, validation_data=(X_test, y_test))
 
-plot_performance(history1)
+plot_performance(history1, figure_dir=os.getcwd(), ylim_pad=[0,0])
 
 y_test = pd.read_csv(os.path.join(path, 'Test.csv'))
 test_labels = y_test["ClassId"].values

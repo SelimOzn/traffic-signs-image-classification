@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1c45805-627b-461b-8ff3-7e84a29e29a6" name="Changes" comment="before model">
+    <list default="true" id="a1c45805-627b-461b-8ff3-7e84a29e29a6" name="Changes" comment="first model">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -46,7 +46,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Python.main.executor": "Debug",
+    "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "last_opened_file_path": "C:/Users/Selim/Desktop/PythonProjects/Traffic Signs Image Classification",
@@ -107,7 +107,11 @@
       <updated>1741005181526</updated>
       <workItem from="1741005182481" duration="3305000" />
       <workItem from="1741024044544" duration="4667000" />
-      <workItem from="1741166312153" duration="4358000" />
+      <workItem from="1741166312153" duration="4402000" />
+      <workItem from="1741255727000" duration="1648000" />
+      <workItem from="1741523596003" duration="9587000" />
+      <workItem from="1741632879557" duration="1417000" />
+      <workItem from="1741702375464" duration="17769000" />
     </task>
     <task id="LOCAL-00001" summary="main">
       <option name="closed" value="true" />
@@ -133,7 +137,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741029456250</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="first model">
+      <option name="closed" value="true" />
+      <created>1741173757294</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1741173757294</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -142,9 +154,10 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="main" />
     <MESSAGE value="before model" />
-    <option name="LAST_COMMIT_MESSAGE" value="before model" />
+    <MESSAGE value="first model" />
+    <option name="LAST_COMMIT_MESSAGE" value="first model" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Traffic_Signs_Image_Classification$main.coverage" NAME="main Coverage Results" MODIFIED="1741026432348" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Traffic_Signs_Image_Classification$main.coverage" NAME="main Coverage Results" MODIFIED="1741712057614" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
